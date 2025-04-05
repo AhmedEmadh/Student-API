@@ -95,25 +95,27 @@ namespace StudentAPIServer.Controllers
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public ActionResult DeleteStudent(int ID)
+        public ActionResult<Object> DeleteStudent(int ID)
         {
             if (ID < 0)
             {
-                return BadRequest("Invalid ID");
+                return BadRequest(new {message = "Invalid ID"});
             }
             var student = clsStudent.Find(ID);
             if (student == null)
             {
-                return NotFound("Student Not Found");
+                // Student Not Found
+                return NotFound(new { message = "Student Not Found" });
             }
             if (clsStudent.DeleteStudent(ID))
             {
-                return Ok($"The Student With ID:{ID} Has Been Deleted");
+                // The Student With ID:{ID} Has Been Deleted
+                return Ok(new { message = $"The Student With ID:{ID} Has Been Deleted" });
 
             }
             else
             {
-                return Problem($"The Student With ID:{ID} Has Not Been Deleted");
+                return StatusCode(StatusCodes.Status500InternalServerError, new { message = $"The Student With ID:{ID} Has Not Been Deleted" });
             }
         }
         [HttpPut("{ID}", Name = "UpdateStudent")]

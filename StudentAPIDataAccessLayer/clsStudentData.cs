@@ -158,7 +158,7 @@ namespace StudentAPIDataAccessLayer
                         cmd.CommandType = CommandType.StoredProcedure;
                         cmd.Parameters.AddWithValue("@StudentId", StudentID);
                         conn.Open();
-                        int rowsAffected = cmd.ExecuteNonQuery();
+                        int rowsAffected = (int)cmd.ExecuteScalar();
                         return rowsAffected > 0;
                     }
                 }
