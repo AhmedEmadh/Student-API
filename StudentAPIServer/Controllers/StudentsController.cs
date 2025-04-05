@@ -43,7 +43,8 @@ namespace StudentAPIServer.Controllers
         public ActionResult<double> GetAverageGrade()
         {
             double average = clsStudent.GetAverageGrade();
-            return Ok(average);
+            var response = new { AverageGrade = average };
+            return Ok(response);
         }
 
         [HttpGet("{ID}", Name = "GetStudentByID")]
@@ -61,7 +62,7 @@ namespace StudentAPIServer.Controllers
             {
                 return NotFound("Student Not Found");
             }
-            return Ok(student);
+            return Ok(student.SDTO);
         }
 
         private bool _IsValidStudentDTO(StudentDTO student)
